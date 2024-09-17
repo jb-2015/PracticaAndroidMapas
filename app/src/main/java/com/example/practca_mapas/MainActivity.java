@@ -2,23 +2,29 @@ package com.example.practca_mapas;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.maps.SupportMapFragment;
 
+public class MainActivity extends FragmentActivity {
+ private MainActivityViewModel mv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        mv= ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(MainActivityViewModel.class);
+
+        mv.getMMapaActual().observe(this, new Observer<MainActivityViewModel.MapaActual>() {
+            @Override
+            public void onChanged(MainActivityViewModel.MapaActual mapaActual) {
+
+                ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(mapaActual);
+            }
         });
+
+        mv.obtenerMapa();
     }
 }

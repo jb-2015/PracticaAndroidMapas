@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Practca_Mapas"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AlzaSyDSo2bCGW0hPR58xDxvadMb3qnsrSwnrNY" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
